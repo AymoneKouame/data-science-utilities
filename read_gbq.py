@@ -1,3 +1,7 @@
+import os
+from google.cloud import bigquery
+client = bigquery.Client()
+
 def BQ(query:str, dataset = os.getenv('WORKSPACE_CDR')):
     
     job_config = bigquery.QueryJobConfig(default_dataset=dataset)
