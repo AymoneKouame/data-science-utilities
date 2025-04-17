@@ -1,7 +1,8 @@
-This repository to host custom data science utilities functions and packages written by Aymone Kouame.
+This repository to host custom data science utilities functions and packages written by Aymone Kouame. Only functions in released packages will be explained below.
 
-## `gc_temp_tables`
+## 1 - gc_temp_tables
 A Python utility packages for creating and querying temporary tables within Google Cloud Environments. Functions:
+
 ### `create_bq_session()`
  Allows you to create a session and manipulate tables within that sessions as if they were Google Big Query tables. Read more about GoogleBigQuery sessions here: https://cloud.google.com/bigquery/docs/sessions-intro
  
