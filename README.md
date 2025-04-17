@@ -49,5 +49,8 @@ df = gct.query_temp_table(f'''
 	SELECT t.*,  age
 	FROM example_table
 	JOIN person USING(person_id)''', session_id = session_id)
+
+# 7. Delete unused temp tables
+df = gct.delete_temp_table('example_table', session_id = session_id)
 ```
 
