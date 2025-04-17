@@ -22,3 +22,32 @@ Delete temporary tables that are unsued. Google will auto delete them after 24 h
 
 Read more about temporary tables here: https://cloud.google.com/bigquery/docs/multi-statement-queries#temporary_tables
 
+
+```
+# Example code
+
+# 1.install the package if not already done
+pip install gc_temp_tables 
+
+# 2. import the module
+from gc_temp_tables import gc_temp_tables as gct
+
+# 3. create/initialize a session 
+session_id = gct.create_bq_session()
+
+# 5. create a temporay table from an external file
+
+## 5.a Grab external table configuration
+ext_config = gct.get_external_table_config(filename_in_bucket='example.parquet')
+
+## 5.b Create table
+gct.create_temp_table(f'''CREATE TEMP TABLE example_table AS (SELECT * FROM example)'''
+		   , ext_table_def_dic = {example: ext_config}, session_id = session_id)
+
+# 6. query the table and join with another table in Google Big Query
+df = gct.query_temp_table(f'''
+	SELECT t.*,  age
+	FROM example_table
+	JOIN person USING(person_id)''', session_id = session_id)
+```
+
