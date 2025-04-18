@@ -1,4 +1,4 @@
-This repository to host custom data science utilities functions and packages written by Aymone Kouame. Only functions in released packages will be explained below.
+This repository hosts custom data science utilities functions and packages written by Aymone Kouame. Only released packages will be explained below.
 
 ## 1 - Package 'gc_temp_tables'
 A Python utility packages for creating and querying temporary tables within Google Cloud Environments (https://pypi.org/project/gc-temp-tables/). Functions:
