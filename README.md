@@ -11,7 +11,7 @@ A Python utility packages for creating and querying temporary tables within Goog
  The user can chose the bucket and bucket_directory. The defaults are the Google Cloud Workspace bucket and the root directory of the bucket.
 
 ### - `create_temp_table(query)`. 
- Using this function, write a query using a '''CREATE TEMP TABLE''' statement to create a temp table. 
+ Using this function, write a '''CREATE TEMP TABLE''' statement to create a temp table. 
  You can use a session_id and/or external table configuration: `create_temp_table(query, session_id,  ext_table_def_dic = {'table_name':ext-config})`
  
 ### - `query_temp_table(query)`
@@ -19,9 +19,6 @@ You can use a session_id and/or external table configuration: `query_temp_table(
 
 ### - `delete_temp_table(temp_table)`.
 Delete temporary tables that are unsued. Google will auto delete them after 24 hours of being unused.
-
-Read more about temporary tables here: https://cloud.google.com/bigquery/docs/multi-statement-queries#temporary_tables
-
 
 ```
 # Example code
@@ -53,4 +50,7 @@ df = gct.query_temp_table(f'''
 # 7. Delete unused temp tables
 df = gct.delete_temp_table('example_table', session_id = session_id)
 ```
+Read more about:
+- temporary tables: https://cloud.google.com/bigquery/docs/multi-statement-queries#temporary_tables
+- external tables: https://cloud.google.com/bigquery/docs/external-tables
 
