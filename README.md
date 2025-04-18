@@ -1,27 +1,36 @@
 This repository hosts custom data science utilities functions and packages written by Aymone Kouame. Only released packages will be explained below.
 
 ## 1 - Package 'gc_temp_tables'
-A Python utility packages for creating and querying temporary tables within Google Cloud Environments (https://pypi.org/project/gc-temp-tables/). Functions:
+A Python utility packages for creating and querying temporary tables within Google Cloud Environments (https://pypi.org/project/gc-temp-tables/). Functions and arguments:
 
 ### - `create_bq_session()`
 Allows you to create a session and interactively query temp tables within that session.
  
 ### - `get_external_table_config(filename_in_bucket)`
-Optional: if using an external table (or federated table) in the query, this function allows the user to easily obtain the configurations to be fed into the query job configurations. The external data must be located in a Google Cloud Bucket.
-Future releases will add options for Spanner external dataset and AWS Glue federated dataset.
-The user can choose the bucket and bucket_directory where the external file is located or use the defaults. The defaults are the Google Cloud Workspace bucket and the root directory of the bucket.
+If using an external table (or federated table) in the query, this function allows the user to easily obtain the configurations to be fed into the query job configurations. Currently, the external data must be located in a Google Cloud Bucket. The supported files are CSV, PARQUET, JSON, ORC, and Avro.Future releases will add options for Google sheets, bigtables, Spanner external dataset and AWS Glue federated dataset.
+- **'filename_in_bucket'** (required): A string. The name of the file in the external storage, including extension.
+- 'bucket': A string. The name of the bucket where the external file is located ('gs://bucketname'). The default is the All of Us Google Workspace bucket.
+- 'bucket_directory': A string. The name of the directory within the bucket where the external file is located. The default is the root bucket directory.
 
 ### - `create_temp_table(query)`. 
-Using this function, write a '''CREATE TEMP TABLE''' statement to create a temp table. 
-You can use a session_id and/or external table configuration as follows `create_temp_table(query, session_id,  ext_table_def_dic = {'table_name':ext-config})`
- 
+Function to create a temp table. You can use a session_id and/or external table configuration as follows `create_temp_table(query, session_id,  ext_table_def_dic = {'table_name':ext-config})`
+- **'query'** (required): A string. A '''CREATE TEMP TABLE''' sql statement.
+- 'dataset': A string . If using a BigQuery table in the query, define the dataset project and name ('project_id.dataset_name'). The default is the All of Us Google Workspace dataset project and name. 
+- 'session_id': A string. If using a session, the unique id of the session obtained using `create_bq_session()`.
+- 'ext_table_def_dic': A dictionary {'external_table_name':ext_table_config}. If using an external table, the desired name of the external table to use in the query as well as the configuration obtained using `get_external_table_config()`
+
 ### - `query_temp_table(query)`
 Using this function, query the temporary table as you would any Google BigQuery dataset.
 You can use a session_id and/or external table configuration as follows `query_temp_table(query, session_id,  ext_table_def_dic = {'table_name':ext-config})`
-
-### - `delete_temp_table(temp_table)`.
+- **'query'** (required): A string. A SQL statement.
+- 'dataset': A string . If using a BigQuery table in the query, define the dataset project and name ('project_id.dataset_name'). The default is the All of Us Google Workspace dataset project and name. 
+- 'session_id': A string. If using a session, the unique id of the session obtained using `create_bq_session()`.
+- 'ext_table_def_dic': A dictionary {'external_table_name':ext_table_config}. If using an external table, the desired name of the external table to use in the query as well as the configuration obtained using `get_external_table_config()`
+- 
+### - `drop_temp_table(temp_table)`.
 Delete temporary tables that are unsued (recommended). Google will auto delete them after 24 hours of being unused. 
-
+- **'temp_table'** (required): A string. The name of the temporary table to delete. PLEASE USE with caution.
+- 'session_id': A string. If using a session, the unique id of the session obtained using `create_bq_session()`.
 ```
 # Example code
 
@@ -49,8 +58,8 @@ df = gct.query_temp_table(f'''
 	FROM example_table
 	JOIN person USING(person_id)''', session_id = session_id)
 
-# 7. Delete unused temp tables
-df = gct.delete_temp_table('example_table', session_id = session_id)
+# 7. Drop unused temp tables
+df = gct.drop_temp_table('example_table', session_id = session_id)
 ```
 Read more about:
 - Google BigQuery sessions: https://cloud.google.com/bigquery/docs/sessions-intro
