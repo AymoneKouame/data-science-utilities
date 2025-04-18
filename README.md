@@ -36,7 +36,7 @@ Delete temporary tables that are unsued (recommended). Google will auto delete t
 # Example code
 
 # 1.install the package if not already done
-pip install gc_temp_tables 
+pip install --upgrade gc_temp_tables 
 
 # 2. import the module
 from gc_temp_tables import gc_temp_tables as gct
