@@ -32,9 +32,8 @@ Delete temporary tables that are unsued (recommended). Google will auto delete t
 - **'temp_table'** (required): A string. The name of the temporary table to delete. PLEASE USE with caution.
 - 'session_id': A string. If using a session, the unique id of the session obtained using `create_bq_session()`.
 
+### Example code
 ```
-# Example code
-
 # 1.install the package if not already done
 pip install --upgrade gc_temp_tables 
 
